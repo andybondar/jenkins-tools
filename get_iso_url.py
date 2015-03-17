@@ -2,9 +2,9 @@ from jenkinsapi.jenkins import Jenkins
 import re
 
 # Define Jenkins url and job name
-jenkins_url = 'http://jenkins-product.srt.mirantis.net:8080'
-jenkins_job = 'mox_6.0_iso'
 
+jenkins_url = ''
+jenkins_job = ''
 
 def get_iso_url(url, jobName, username=None, password=None):
     J = Jenkins(url, username, password)
