@@ -17,4 +17,3 @@ sshpass -p$fuel_master_pass \
 scp -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null -oRSAAuthentication=no -oPubkeyAuthentication=no \
 $fuel_master_user@$FUEL_IP:/var/log/job-reports/ostf.log ostf.log
 
-ls -lh ostf.log
