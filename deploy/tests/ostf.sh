@@ -12,7 +12,7 @@ fuel_master_pass=`ssh -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostI
 count=250
 while [[ $count -ne 0 ]] ; do
     echo "=== Waiting when OpenStack env is operational.. left $count attempts"
-    status=`ssh -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null -oRSAAuthentication=no -oPubkeyAuthentication=no $fuel_master_user@$FUEL_IP fuel env --env 1 | tail -1 | awk {'print $3'}`
+    status=`sshpass -p $fuel_master_pass ssh -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null -oRSAAuthentication=no -oPubkeyAuthentication=no $fuel_master_user@$FUEL_IP fuel env --env 1 | tail -1 | awk {'print $3'}`
     if [ "$status" = "operational" ]; then
 	echo "=== OpenStack env is $status"
 	break
