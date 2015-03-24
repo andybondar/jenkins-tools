@@ -38,7 +38,7 @@ echo "==============" >> ostf.log
 
 ostf_status=`cat ostf.log | grep failure | wc -l`
 if [ "$ostf_status" -eq "0" ]; then
-    echo "$ostf_status test(s) failed!"
-else
     echo "All tests passed."
+else
+    echo "$ostf_status test(s) failed!"
 fi
