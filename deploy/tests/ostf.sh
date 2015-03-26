@@ -40,5 +40,6 @@ ostf_status=`cat ostf.log | grep failure | wc -l`
 if [ "$ostf_status" -eq "0" ]; then
     echo "All tests passed." >> ostf.log
 else
-    echo "$ostf_status test(s) failed! Refer to log for details." >> ostf.log
+    echo "$ostf_status test(s) failed!" >> ostf.log
+    echo "Refer to log for details."
 fi
