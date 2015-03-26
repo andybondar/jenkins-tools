@@ -28,7 +28,7 @@ done
 
 sshpass -p$fuel_master_pass \
 ssh -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null -oRSAAuthentication=no -oPubkeyAuthentication=no \
-$fuel_master_user@$FUEL_IP 'rm -rf /var/log/job-reports; mkdir -p /var/log/job-reports; fuel health --env 1 --check sanity,smoke |tee /var/log/job-reports/ostf.log'
+$fuel_master_user@$FUEL_IP "rm -rf /var/log/job-reports; mkdir -p /var/log/job-reports; fuel health --env 1 --check $ostf_checks |tee /var/log/job-reports/ostf.log"
 
 sshpass -p$fuel_master_pass \
 scp -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null -oRSAAuthentication=no -oPubkeyAuthentication=no \
@@ -40,5 +40,5 @@ ostf_status=`cat ostf.log | grep failure | wc -l`
 if [ "$ostf_status" -eq "0" ]; then
     echo "All tests passed." >> ostf.log
 else
-    echo "$ostf_status test(s) failed!" >> ostf.log
+    echo "$ostf_status test(s) failed! Refer to log for details." >> ostf.log
 fi
