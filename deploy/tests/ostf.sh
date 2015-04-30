@@ -34,10 +34,6 @@ sshpass -p$fuel_master_pass \
 scp -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null -oRSAAuthentication=no -oPubkeyAuthentication=no \
 $fuel_master_user@$FUEL_IP:/var/log/job-reports/ostf.log ostf.log
 
-# Copy '/etc/fuel/version.yaml' to job workspace
-sshpass -p$fuel_master_pass \
-scp -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null -oRSAAuthentication=no -oPubkeyAuthentication=no \
-$fuel_master_user@$FUEL_IP:/etc/fuel/version.yaml version.yaml.txt
 
 echo "==============" >> ostf.log
 
@@ -47,6 +43,23 @@ if [ "$ostf_status" -eq "0" ]; then
 else
     echo "$ostf_status test(s) failed!" >> ostf.log
     echo "Refer to log for details."
-    exit 1
+#    exit 1
 fi
 
+# Correct symlinks
+
+if [ "$(tail -n1 ostf.log)" = "All tests passed." ]; then
+    if [ -z "$BUILD_NUMBER_ISO" ]; then
+	echo "BUILD_NUMBER_ISO is unset, nothing to do with symlinks"
+	exit 0
+    fi
+    ssh -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null \
+-oRSAAuthentication=no -p$STORAGE_PORT root@$STORAGE_IP "rm -f /store/fuel_ref/rc; ln -s /store/fuel_ref/$BUILD_NUMBER_ISO /store/fuel_ref/rc"
+else
+    if [ -z "$BUILD_NUMBER_ISO" ]; then
+	echo "BUILD_NUMBER_ISO is unset, nothing to do with symlinks"
+	exit 1
+    fi
+    ssh -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null \
+-oRSAAuthentication=no -p$STORAGE_PORT root@$STORAGE_IP "rm -f /store/fuel_ref/test; ln -s /store/fuel_ref/$PREVIOUS_BUILD /store/fuel_ref/test"
+fi
