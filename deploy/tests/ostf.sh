@@ -62,4 +62,5 @@ else
     fi
     ssh -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null \
 -oRSAAuthentication=no -p$STORAGE_PORT root@$STORAGE_IP "rm -f /store/fuel_ref/test; ln -s /store/fuel_ref/$PREVIOUS_BUILD /store/fuel_ref/test"
+    exit 1
 fi
