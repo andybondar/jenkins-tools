@@ -54,7 +54,7 @@ if [ "$(tail -n1 ostf.log)" = "All tests passed." ]; then
 	exit 0
     fi
     ssh -oConnectTimeout=5 -oStrictHostKeyChecking=no -oCheckHostIP=no -oUserKnownHostsFile=/dev/null \
--oRSAAuthentication=no -p$STORAGE_PORT root@$STORAGE_IP "rm -f /store/fuel_ref/rc; ln -s /store/fuel_ref/$BUILD_NUMBER_ISO /store/fuel_ref/rc"
+-oRSAAuthentication=no -p$STORAGE_PORT root@$STORAGE_IP "rm -f /store/fuel_ref/rc; ln -s /store/fuel_ref/build_${BUILD_NUMBER_ISO} /store/fuel_ref/rc"
 else
     if [ -z "$BUILD_NUMBER_ISO" ]; then
 	echo "BUILD_NUMBER_ISO is unset, nothing to do with symlinks"
