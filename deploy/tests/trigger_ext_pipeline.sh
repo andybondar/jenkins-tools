@@ -26,7 +26,7 @@ echo $delay
 attempts=3
 while [[ $attempts -ne 0 ]]; do
     echo "Trying to authorize on remote Jenkins. $attempts left."
-	output=`curl -is "http://${jenkins_username}:${jenkins_password}@${extended_pipeline_url}buildWithParameters?token=${extended_pipeline_token}&delay=${delay}sec" | head -n1 |awk '{print $2}'`
+	output=`curl -is "http://${jenkins_username}:${jenkins_password}@${extended_pipeline_url}buildWithParameters?token=${extended_pipeline_token}&delay=60sec" | head -n1 |awk '{print $2}'`
     if [ "$output" = "201" ]; then
         echo "Success. Job is triggered."
         break
